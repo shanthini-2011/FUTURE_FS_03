@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Order - Shanthu Cafe</title>
+    <style>
+        /* 🌈 DUAL THEME CSS VARIABLES */
+        :root {
+            --bg-main: linear-gradient(-45deg, #ffe5e5, #fff0f0, #ffd6e0, #fcdada);
+            --text-title: #ff4d6d;
+            --text-sub: #800f2f;
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --nav-border: #ffcad4;
+            --nav-link: #590d22;
+            --form-bg: rgba(255, 255, 255, 0.9);
+            --form-border: #fff;
+            --input-bg: #fff;
+            --input-text: #4a2c2a;
+            --input-border: #ffcad4;
+            --label-color: #ff4d6d;
+            --shadow: rgba(0,0,0,0.15);
+        }
+
+        /* 🌓 DARK MODE VARIABLES (Like your screenshot!) */
+        .dark-mode {
+            --bg-main: #1a0f0d;
+            --text-title: #ff4d6d;
+            --text-sub: #aaa;
+            --nav-bg: rgba(26, 15, 13, 0.95);
+            --nav-border: #33221c;
+            --nav-link: #ffffff;
+            --form-bg: #261612;
+            --form-border: #3d251f;
+            --input-bg: #120a09;
+            --input-text: #ffffff;
+            --input-border: #3d251f;
+            --label-color: #ff4d6d;
+            --shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; transition: background 0.3s, color 0.3s, border-color 0.3s; }
+        
+        body { background: var(--bg-main); background-size: 400% 400%; animation: gradientBG 15s ease infinite; color: var(--text-sub); overflow-x: hidden; }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        /* NAVBAR */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; position: sticky; top: 0; z-index: 100; background: var(--nav-bg); border-bottom: 1px solid var(--nav-border); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 24px; font-weight: bold; color: #ff4d6d; }
+        
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { color: var(--nav-link); text-decoration: none; font-size: 16px; font-weight: bold; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: #ff4d6d; }
+
+        /* 🌙 MOON TOGGLE BUTTON */
+        .theme-toggle { background: none; border: none; font-size: 22px; cursor: pointer; border-radius: 50%; padding: 5px; transition: 0.3s; }
+        .theme-toggle:hover { background: rgba(255, 77, 109, 0.2); transform: scale(1.1); }
+
+        /* ORDER FORM SECTION */
+        .order-section { padding: 60px 5%; text-align: center; position: relative; z-index: 10; }
+        .order-section h1 { font-size: 48px; margin-bottom: 15px; font-style: italic; color: var(--text-title); }
+        .order-section p { margin-bottom: 40px; font-size: 18px; }
+
+        .glass-form { background: var(--form-bg); border: 1px solid var(--form-border); border-radius: 20px; padding: 40px; max-width: 600px; margin: 0 auto; text-align: left; box-shadow: var(--shadow); }
+        
+        .input-group { margin-bottom: 25px; }
+        .input-group label { display: block; margin-bottom: 10px; color: var(--label-color); font-weight: bold; font-size: 16px; }
+        .input-group select, .input-group textarea { width: 100%; padding: 15px; background: var(--input-bg); border: 1px solid var(--input-border); color: var(--input-text); border-radius: 8px; font-size: 16px; outline: none; transition: 0.3s;}
+        .input-group select:focus, .input-group textarea:focus { border-color: #ff4d6d; }
+        
+        .btn-submit { width: 100%; padding: 15px; background: #ff4d6d; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
+        .btn-submit:hover { background: #c9184a; transform: scale(1.02); }
+
+        /* 📍 LIVE ORDER TRACKING CSS */
+        .tracker-container { display: none; margin-top: 40px; padding: 30px; background: var(--form-bg); border-radius: 15px; border: 1px solid var(--form-border); text-align: center; }
+        .tracker-container h3 { color: var(--text-title); margin-bottom: 30px; }
+        .progress-bar { display: flex; justify-content: space-between; align-items: center; position: relative; max-width: 500px; margin: 0 auto; }
+        .progress-bar::before { content: ''; position: absolute; top: 20px; left: 0; width: 100%; height: 4px; background: var(--input-border); z-index: 1; }
+        
+        .step { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; width: 25%; }
+        .circle { width: 40px; height: 40px; background: var(--form-bg); border: 2px solid var(--input-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; transition: 0.5s; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .step p { margin-top: 10px; font-size: 14px; font-weight: bold; transition: 0.5s; color: var(--text-sub); }
+        
+        .step.active .circle { background: #ff4d6d; border-color: #ff4d6d; transform: scale(1.2); box-shadow: 0 0 15px #ff4d6d; color: white; }
+        .step.active p { color: #ff4d6d; }
+
+        /* Magic Emojis Container */
+        #animation-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
+        .particle { position: absolute; animation: fall linear infinite; opacity: 0.8; }
+        @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg) scale(0.8); } 100% { transform: translateY(110vh) rotate(360deg) scale(1.2); } }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <div id="animation-container"></div>
+    
+    <nav>
+        <a href="index.html" class="logo-container">🧁 Shanthu Cafe</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#menu">Menu & Prices</a>
+            <a href="order.html" class="active">Order Custom Cake</a>
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeIcon">☀️</button>
+        </div>
+    </nav>
+
+    <section class="order-section">
+        <h1>Design Your Dream Cake</h1>
+        <p>Select your favorite flavor and watch the magic happen!</p>
+        
+        <div class="glass-form" id="orderForm">
+            <form>
+                <div class="input-group">
+                    <label for="flavor">🎂 Step 1: Choose Your Flavor</label>
+                    <select id="flavor" onchange="changeAnimation()">
+                        <option value="none">-- Select to see magic! --</option>
+                        <option value="chocolate">Rich Chocolate Truffle</option>
+                        <option value="strawberry">Fresh Strawberry Cream</option>
+                        <option value="vanilla">Vanilla Caramel</option>
+                        <option value="redvelvet">Premium Red Velvet</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="size">📏 Step 2: Choose Size</label>
+                    <select id="size">
+                        <option>Half Kg (₹500 - ₹700)</option>
+                        <option>1 Kg (₹1000 - ₹1400)</option>
+                        <option>2 Kg Custom Tier (₹2500+)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="details">📝 Step 3: Custom Cake Details</label>
+                    <textarea id="details" rows="4" placeholder="Describe your dream cake..."></textarea>
+                </div>
+                <button type="button" class="btn-submit" onclick="placeOrder()">Place Custom Order 🚀</button>
+            </form>
+        </div>
+
+        <div class="tracker-container" id="tracker">
+            <h3>📍 Live Order Tracking</h3>
+            <div class="progress-bar">
+                <div class="step" id="step1">
+                    <div class="circle">📝</div>
+                    <p>Order Placed</p>
+                </div>
+                <div class="step" id="step2">
+                    <div class="circle">👩‍🍳</div>
+                    <p>Baking</p>
+                </div>
+                <div class="step" id="step3">
+                    <div class="circle">🎨</div>
+                    <p>Decorating</p>
+                </div>
+                <div class="step" id="step4">
+                    <div class="circle">🛵</div>
+                    <p>Out for Delivery</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 🌓 DARK MODE TOGGLE LOGIC
+        function toggleTheme() {
+            document.body.classList.toggle("dark-mode");
+            let icon = document.getElementById("themeIcon");
+            if(document.body.classList.contains("dark-mode")) { 
+                icon.innerText = "☀️"; 
+            } else { 
+                icon.innerText = "🌙"; 
+            }
+        }
+
+        // 1. Falling Emojis Magic
+        let animationInterval;
+        function changeAnimation() {
+            const flavor = document.getElementById('flavor').value;
+            const container = document.getElementById('animation-container');
+            container.innerHTML = ''; clearInterval(animationInterval);
+            let particles = [];
+            if (flavor === 'chocolate') particles = ['🍫', '🍩', '🍪', '🤎'];
+            else if (flavor === 'strawberry') particles = ['🍓', '🍒', '🌸', '🩷'];
+            else if (flavor === 'vanilla') particles = ['🍦', '🧁', '🌼', '🤍'];
+            else if (flavor === 'redvelvet') particles = ['🍰', '❤️', '🌹', '🍓'];
+            else return;
+
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.innerText = particles[Math.floor(Math.random() * particles.length)];
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                container.appendChild(particle);
+                setTimeout(() => { particle.remove(); }, 8000);
+            }
+            animationInterval = setInterval(createParticle, 300);
+        }
+
+        // 2. Live Order Tracking Magic
+        function placeOrder() {
+            document.getElementById('orderForm').style.display = 'none';
+            document.getElementById('tracker').style.display = 'block';
+
+            setTimeout(() => { document.getElementById('step1').classList.add('active'); }, 500);
+            setTimeout(() => { document.getElementById('step2').classList.add('active'); }, 2500);
+            setTimeout(() => { document.getElementById('step3').classList.add('active'); }, 5000);
+            setTimeout(() => { document.getElementById('step4').classList.add('active'); }, 7500);
+            
+            setTimeout(() => { alert("🎉 Yay! Your Dream Cake is on its way!"); }, 8000);
+        }
+    </script>
+</body>
+</html>

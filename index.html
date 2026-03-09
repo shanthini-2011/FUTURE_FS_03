@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shanthu Cafe ✨</title>
+    <style>
+        /* CSS Variables for Dark/Light Mode Switch */
+        :root {
+            --bg-grad: linear-gradient(-45deg, #ffe5e5, #fff0f0, #ffd6e0, #fcdada);
+            --text-main: #590d22;
+            --text-sub: #800f2f;
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: #fff;
+            --logo-ss-bg: linear-gradient(135deg, #ff4d6d, #c9184a);
+            --logo-ss-border: #ffcad4;
+        }
+
+        .dark-mode {
+            --bg-grad: linear-gradient(-45deg, #1a0f0d, #261612, #120a09, #0d0504);
+            --text-main: #e8c37d;
+            --text-sub: #cccccc;
+            --nav-bg: rgba(26, 15, 13, 0.95);
+            --card-bg: #261612;
+            --card-border: #3d251f;
+            --logo-ss-bg: linear-gradient(135deg, #e8c37d, #ff4d6d);
+            --logo-ss-border: #e8c37d;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; transition: background 0.3s, color 0.3s; cursor: pointer; /* Change cursor everywhere to encourage moving it! */ }
+        
+        body { background: var(--bg-grad); background-size: 400% 400%; animation: gradientBG 15s ease infinite; color: var(--text-main); overflow-x: hidden; }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
+        .text-pink { color: #ff4d6d; }
+        
+        .btn { display: inline-block; padding: 12px 28px; background: #ff4d6d; color: white; text-decoration: none; border-radius: 30px; font-weight: bold; transition: all 0.3s ease; border: none; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); width: 100%;}
+        .btn:hover { background: #c9184a; transform: translateY(-4px); box-shadow: 0 8px 20px rgba(255, 77, 109, 0.4); }
+
+        .marquee { background: #ff4d6d; color: white; padding: 10px 0; font-size: 15px; font-weight: bold; display: flex; overflow: hidden; width: 100%; position: relative; z-index: 1001;}
+        .marquee span { white-space: nowrap; animation: scrollText 15s linear infinite; }
+        @keyframes scrollText { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; position: sticky; top: 0; z-index: 1000; background: var(--nav-bg); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+        .logo-container { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .ss-badge { background: var(--logo-ss-bg); color: white; font-size: 16px; font-weight: 900; padding: 8px; border-radius: 50%; box-shadow: 0 0 10px rgba(255, 77, 109, 0.6); animation: pulseGlow 2s infinite; display: flex; align-items: center; justify-content: center; border: 2px solid var(--logo-ss-border); text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        .logo-text { font-size: 28px; font-weight: 900; color: #ff4d6d; animation: colorCycle 4s linear infinite; }
+
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 5px rgba(255, 77, 109, 0.5); } 50% { box-shadow: 0 0 15px rgba(255, 77, 109, 0.8); } 100% { box-shadow: 0 0 5px rgba(255, 77, 109, 0.5); } }
+        @keyframes colorCycle { 0% { color: #ff4d6d; } 50% { color: #e8c37d; } 100% { color: #ff4d6d; } }
+
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 16px; font-weight: bold; transition: 0.3s; padding: 8px 15px; border-radius: 20px;}
+        .nav-links a:hover { color: #ff4d6d; background: rgba(255, 77, 109, 0.1); }
+        
+        .theme-toggle { background: none; border: none; font-size: 24px; cursor: pointer; border-radius: 50%; padding: 5px; transition: 0.3s; }
+        .theme-toggle:hover { background: rgba(255, 77, 109, 0.2); transform: scale(1.1); }
+
+        .hero { min-height: 85vh; display: flex; align-items: center; justify-content: space-between; padding: 40px 10%; flex-wrap: wrap; }
+        .hero-content { max-width: 500px; z-index: 10; margin-bottom: 30px; }
+        .hero h1 { font-size: 70px; font-weight: 900; line-height: 1.1; margin-bottom: 20px; color: var(--text-main); }
+        .hero p { font-size: 18px; margin-bottom: 30px; color: var(--text-sub); font-weight: 500; }
+        
+        .hero-image { width: 45%; display: flex; justify-content: center; }
+        .hero-image img { width: 100%; max-width: 450px; filter: drop-shadow(0 20px 30px rgba(255, 77, 109, 0.4)); animation: float 6s ease-in-out infinite; border-radius: 20px; }
+        @keyframes float { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-20px) rotate(3deg); } }
+
+        .category-title { font-size: 35px; color: #ff4d6d; margin: 60px 0 30px; text-align: left; padding-left: 5%; font-style: italic; border-bottom: 2px dashed #ff4d6d; display: inline-block; }
+        .menu-section { padding: 40px 5% 40px; text-align: center; }
+        
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; padding: 0 5%; margin-top: 20px; align-items: stretch; }
+        
+        /* ⬇️ SCROLL REVEAL CSS */
+        .reveal { opacity: 0; transform: translateY(80px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .menu-card { border-radius: 25px; padding: 30px 25px; text-align: center; background: var(--card-bg); border: 2px solid var(--card-border); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; align-items: center; justify-content: space-between; height: 100%; transition: transform 0.4s, box-shadow 0.4s, opacity 0.8s, border-color 0.4s; }
+        .menu-card.active:hover { transform: translateY(-15px); box-shadow: 0 20px 40px rgba(255, 77, 109, 0.3); border-color: #ff8fa3; }
+        
+        .menu-card img { width: 180px; height: 180px; object-fit: cover; margin: 0 auto 20px auto; border-radius: 50%; border: 6px solid var(--card-border); box-shadow: 0 10px 20px rgba(0,0,0,0.15); transition: 0.5s; }
+        .menu-card:hover img { transform: scale(1.1) rotate(5deg); border-color: #ff8fa3; }
+
+        .card-content { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; width: 100%; }
+        .menu-card h3 { font-size: 24px; color: var(--text-main); margin-bottom: 10px; }
+        .menu-card p.price { color: #ff4d6d; margin: 5px 0 20px; font-weight: 900; font-size: 26px; }
+
+        .ai-section { padding: 50px 10%; text-align: center; background: var(--card-bg); margin: 40px 5%; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid var(--card-border); }
+        .ai-section h2 { font-size: 35px; color: var(--text-main); margin-bottom: 15px; }
+        .ai-section p { color: var(--text-sub); margin-bottom: 20px; font-size: 18px; }
+        .ai-input { width: 100%; max-width: 500px; padding: 15px; border-radius: 30px; border: 2px solid #ff8fa3; outline: none; font-size: 16px; text-align: center; background: transparent; color: var(--text-main); margin-bottom: 20px;}
+        #ai-result { margin-top: 20px; font-size: 22px; font-weight: bold; color: #ff4d6d; min-height: 30px; }
+
+        .review-marquee { background: var(--nav-bg); color: var(--text-main); padding: 20px 0; font-size: 18px; font-style: italic; display: flex; overflow: hidden; border-top: 1px solid var(--card-border); border-bottom: 1px solid var(--card-border); margin-top: 50px;}
+        .review-marquee span { white-space: nowrap; animation: scrollText 20s linear infinite; display: inline-block; padding-left: 100%; }
+
+        /* Add to cart sparks */
+        .sparkle { position: absolute; font-size: 20px; pointer-events: none; z-index: 9999; animation: explode 0.6s ease-out forwards; color: #ff4d6d; }
+        @keyframes explode { 0% { transform: scale(1) translate(0,0); opacity: 1; } 100% { transform: scale(0) translate(var(--tx), var(--ty)); opacity: 0; } }
+
+        /* ✨ MAGIC CURSOR TRAIL CSS */
+        .mouse-trail { position: absolute; pointer-events: none; font-size: 14px; z-index: 10000; animation: trailFade 0.8s linear forwards; text-shadow: 0 0 5px #ff4d6d; }
+        @keyframes trailFade { 0% { transform: scale(1) translateY(0); opacity: 1; } 100% { transform: scale(0.5) translateY(20px); opacity: 0; } }
+
+        #toast { position: fixed; bottom: 30px; right: -300px; background: #590d22; color: white; padding: 15px 25px; border-radius: 10px; font-weight: bold; transition: 0.5s; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        #toast.show { right: 30px; }
+    </style>
+</head>
+<body>
+
+    <audio id="cafeMusic" loop>
+        <source src="https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="marquee">
+        <span>✨ Welcome to Shanthu Cafe! 🎉 Get 20% OFF on your first Custom Cake Order! Use code: SHANTHU20 🍰 Free Delivery within 5kms! ✨</span>
+    </div>
+
+    <nav>
+        <a href="index.html" class="logo-container">
+            <span class="ss-badge">✨SS✨</span>
+            <span class="logo-text">Shanthu Cafe</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="#menu">Our Menu</a>
+            <a href="order.html">Order Custom Cake</a>
+            <button class="theme-toggle" onclick="toggleMusic()" id="musicIcon" title="Play Cafe BGM">🎵</button>
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeIcon" title="Dark Mode">🌙</button>
+        </div>
+    </nav>
+
+    <section class="hero reveal">
+        <div class="hero-content">
+            <h2 class="text-pink">Made with Love</h2>
+            <h1>Taste the <br><span class="text-pink">Magic Here</span></h1>
+            <p>Welcome to Shanthu Cafe! Experience our handcrafted 3D cakes, baked fresh every single day just for you.</p>
+            <a href="order.html" class="btn" style="width: auto;">Design Your Dream Cake ✨</a>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80" alt="Beautiful Custom Cake">
+        </div>
+    </section>
+
+    <section class="ai-section reveal">
+        <h2>🤖 AI Cake Matchmaker</h2>
+        <p>Not sure what to order? Tell us how you feel, and our AI will pick the perfect cake for you!</p>
+        <input type="text" id="userMood" class="ai-input" placeholder="E.g., I am feeling sad today... or It's my birthday!">
+        <br>
+        <button class="btn" style="width: auto;" onclick="recommendCake()">Find My Perfect Cake 🪄</button>
+        <p id="ai-result"></p>
+    </section>
+
+    <section id="menu" class="menu-section">
+        <h3 class="category-title reveal">🍰 Exclusive Premium Cakes</h3>
+        <div class="menu-grid">
+            <div class="menu-card reveal"><img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=500&q=80" alt="Blackcurrant Cake"><div class="card-content"><h3>Blackcurrant Cake</h3><p class="price">₹700</p></div><button onclick="addToCart(event, 'Blackcurrant Cake', '₹700')" class="btn">Add to Cart</button></div>
+            <div class="menu-card reveal"><img src="https://images.unsplash.com/photo-1519869325930-281384150729?w=500&q=80" alt="Honey Cake"><div class="card-content"><h3>Classic Honey Cake</h3><p class="price">₹550</p></div><button onclick="addToCart(event, 'Classic Honey Cake', '₹550')" class="btn">Add to Cart</button></div>
+            <div class="menu-card reveal"><img src="https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=500&q=80" alt="Triple Chocolate Brownie"><div class="card-content"><h3>Triple Choco Brownie</h3><p class="price">₹350</p></div><button onclick="addToCart(event, 'Triple Choco Brownie', '₹350')" class="btn">Add to Cart</button></div>
+            <div class="menu-card reveal"><img src="https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?w=500&q=80" alt="Red Velvet"><div class="card-content"><h3>Royal Red Velvet</h3><p class="price">₹650</p></div><button onclick="addToCart(event, 'Royal Red Velvet', '₹650')" class="btn">Add to Cart</button></div>
+            <div class="menu-card reveal"><img src="https://images.unsplash.com/photo-1567327613485-fbc7bf196198?w=500&q=80" alt="Blueberry Cheesecake"><div class="card-content"><h3>Blueberry Cheesecake</h3><p class="price">₹800</p></div><button onclick="addToCart(event, 'Blueberry Cheesecake', '₹800')" class="btn">Add to Cart</button></div>
+            <div class="menu-card reveal"><img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=500&q=80" alt="Strawberry Fruit Cake"><div class="card-content"><h3>Strawberry Cream</h3><p class="price">₹600</p></div><button onclick="addToCart(event, 'Strawberry Cream Cake', '₹600')" class="btn">Add to Cart</button></div>
+            <div class="menu-card reveal"><img src="https://images.unsplash.com/photo-1557308536-ee471ef2c390?w=500&q=80" alt="Vanilla Caramel Cake"><div class="card-content"><h3>Vanilla Caramel Cake</h3><p class="price">₹500</p></div><button onclick="addToCart(event, 'Vanilla Caramel Cake', '₹500')" class="btn">Add to Cart</button></div>
+            <div class="menu-card reveal"><img src="https://images.unsplash.com/photo-1587314168485-3236d6710814?w=500&q=80" alt="Pineapple Pastry"><div class="card-content"><h3>Fresh Pineapple Cake</h3><p class="price">₹450</p></div><button onclick="addToCart(event, 'Fresh Pineapple Cake', '₹450')" class="btn">Add to Cart</button></div>
+            <div class="menu-card reveal"><img src="coffee.jpg" alt="Rich Coffee Cake"><div class="card-content"><h3>Rich Coffee Cake</h3><p class="price">₹550</p></div><button onclick="addToCart(event, 'Rich Coffee Cake', '₹550')" class="btn">Add to Cart</button></div>
+        </div>
+    </section>
+
+    <div class="review-marquee">
+        <span>⭐⭐⭐⭐⭐ "The AI recommended the Red Velvet and it was PERFECT!" - Rahul K. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⭐⭐⭐⭐⭐ "Shanthu Cafe's Honey Cake is out of this world!" - Priya M. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⭐⭐⭐⭐⭐ "Best custom cakes in the city!" - Vikram S. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⭐⭐⭐⭐⭐ "Love the Dark Mode design of this site, so premium!" - Anita R.</span>
+    </div>
+
+    <div id="toast">Item added to cart!</div>
+
+    <script>
+        // 🎵 MUSIC TOGGLE LOGIC
+        let musicPlaying = false;
+        let bgMusic = document.getElementById("cafeMusic");
+        
+        function toggleMusic() {
+            let mIcon = document.getElementById("musicIcon");
+            if(musicPlaying) {
+                bgMusic.pause();
+                mIcon.innerText = "🎵";
+            } else {
+                bgMusic.play();
+                mIcon.innerText = "🔇"; // Shows mute icon while playing, so user knows they can click to mute
+            }
+            musicPlaying = !musicPlaying;
+        }
+
+        // 🌓 DARK MODE LOGIC
+        function toggleTheme() {
+            document.body.classList.toggle("dark-mode");
+            let icon = document.getElementById("themeIcon");
+            if(document.body.classList.contains("dark-mode")) { icon.innerText = "☀️"; } 
+            else { icon.innerText = "🌙"; }
+        }
+
+        // 🤖 AI RECOMMENDER LOGIC
+        function recommendCake() {
+            let mood = document.getElementById("userMood").value.toLowerCase();
+            let resultText = document.getElementById("ai-result");
+            if(mood === "") { resultText.innerText = "Please tell me how you feel first! 😅"; return; }
+            if(mood.includes("sad") || mood.includes("tired") || mood.includes("bad")) { resultText.innerText = "✨ AI Says: Chocolate boosts serotonin! Try our 'Triple Choco Brownie' to lift your mood! 🍫"; } 
+            else if(mood.includes("happy") || mood.includes("good") || mood.includes("great")) { resultText.innerText = "✨ AI Says: Celebrate that joy! The colorful 'Strawberry Cream' is perfect for you! 🍓"; } 
+            else if(mood.includes("birthday") || mood.includes("party")) { resultText.innerText = "✨ AI Says: Happy Birthday! Order the 'Royal Red Velvet' for a premium celebration! 🎂"; } 
+            else { resultText.innerText = "✨ AI Says: You seem adventurous! Go for our 'Vanilla Caramel Cake'! 🍰"; }
+        }
+
+        // ✨ SPARKLE CART LOGIC
+        function addToCart(event, itemName, price) {
+            for(let i=0; i<8; i++) {
+                let spark = document.createElement('div');
+                spark.className = 'sparkle';
+                spark.innerText = '✨'; 
+                spark.style.left = event.pageX + 'px';
+                spark.style.top = event.pageY + 'px';
+                let colors = ['#e8c37d', '#ffffff', '#ffedc2', '#ffcad4'];
+                spark.style.color = colors[Math.floor(Math.random() * colors.length)];
+                let tx = (Math.random() - 0.5) * 150 + 'px';
+                let ty = (Math.random() - 0.5) * 150 + 'px';
+                spark.style.setProperty('--tx', tx); spark.style.setProperty('--ty', ty);
+                document.body.appendChild(spark);
+                setTimeout(() => spark.remove(), 600); 
+            }
+            let toast = document.getElementById("toast");
+            toast.innerText = "🛒 " + itemName + " added to your cart!";
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        // ⬇️ SCROLL REVEAL ANIMATION LOGIC
+        function revealCards() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100; // Trigger distance
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", revealCards);
+        revealCards(); // Call once on load so the top elements appear immediately
+
+        // ✨ MAGIC CURSOR TRAIL LOGIC
+        document.addEventListener("mousemove", function(e) {
+            // Limit the number of stars created to avoid lag
+            if(Math.random() > 0.3) { 
+                let trail = document.createElement("div");
+                trail.className = "mouse-trail";
+                trail.innerText = "✨";
+                
+                // Varied colors for the trail
+                let colors = ['#ff4d6d', '#ff8fa3', '#e8c37d'];
+                trail.style.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                trail.style.left = (e.pageX + 10) + "px"; // Offset slightly from exact pointer
+                trail.style.top = (e.pageY + 10) + "px";
+                document.body.appendChild(trail);
+                
+                setTimeout(() => { trail.remove(); }, 800); // Remove element after animation
+            }
+        });
+    </script>
+</body>
+</html>
